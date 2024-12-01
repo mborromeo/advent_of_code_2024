@@ -17,19 +17,12 @@ defmodule AdventOfCode.Day1 do
   end
 
   defp read_numbers(input) do
-    lines = String.split(input, ~r/\r?\n/, trim: true)
-
-    Enum.reduce(lines, {[], []}, fn line, {left_acc, right_acc} ->
-      case String.split(line) do
-        [left_str, right_str | _rest] ->
-          left_num = String.to_integer(left_str)
-          right_num = String.to_integer(right_str)
-          {[left_num | left_acc], [right_num | right_acc]}
-
-        _ ->
-          {left_acc, right_acc}
-      end
+    String.split(input, ~r/\r?\n/, trim: true)
+    |> Enum.map(fn line ->
+      [left_str, right_str | _] = String.split(line)
+      {String.to_integer(left_str), String.to_integer(right_str)}
     end)
+    |> Enum.unzip()
   end
 
   defp calculate_total_distance(left_list, right_list) do
